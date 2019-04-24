@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjd.rescue.dao.product.UserTeamMapper">
+
+
+    
+    <select id="selectUserIdToTeam" parameterType="java.util.List" resultType="java.util.HashMap">
+        SELECT t.name,ut.user_id FROM user_team ut LEFT JOIN team t ON ut.team_id = t.id WHERE  ut.user_id IN
+        <foreach collection="userList" item="us" index="index" open="(" close=")" separator=",">
+            #{us.id}
+        </foreach>
+    </select>
+    <select id="listTeamUser" parameterType="java.lang.String" resultType="com.cjd.rescue.entity.shiro.User">
+        SELECT u.* FROM user_team ut LEFT JOIN  sys_user u ON ut.user_id = u.id WHERE  ut.team_id=#{team_id}
+    </select>
+    <select id="listTeamUserCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(ut.id) FROM user_team ut LEFT JOIN  sys_user u ON ut.user_id = u.id WHERE  ut.team_id=#{team_id}
+    </select>
+</mapper>
